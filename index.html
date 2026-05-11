@@ -207,6 +207,14 @@ button{cursor:pointer;font-family:inherit}
     <button class="itab" id="stab-secondary" onclick="showStates('secondary')" style="color:#3B9EFF;border-color:#3B9EFF">ALL STATES</button>
     <button class="itab" id="stab-holidays" onclick="showStates('holidays')" style="color:#8BC34A;border-color:#8BC34A">HOLIDAYS &amp; KEY DATES</button>
   </div>
+  <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+    <span style="font-size:9px;color:#555;font-family:'Arial Black',sans-serif;letter-spacing:.08em;margin-right:4px">OTHER SPORTS CONFLICT:</span>
+    <button id="sp-all" onclick="filterSport('all')" style="padding:5px 12px;background:transparent;color:#D4FF00;border:1px solid #D4FF00;border-radius:1px;font-size:9px;font-weight:900;font-family:'Arial Black',sans-serif;cursor:pointer">CLEAR</button>
+    <button id="sp-football" onclick="filterSport('football')" style="padding:5px 12px;background:transparent;color:#E8760A;border:1px solid #E8760A;border-radius:1px;font-size:9px;font-weight:900;font-family:'Arial Black',sans-serif;cursor:pointer">FOOTBALL</button>
+    <button id="sp-soccer" onclick="filterSport('soccer')" style="padding:5px 12px;background:transparent;color:#3DBA6F;border:1px solid #3DBA6F;border-radius:1px;font-size:9px;font-weight:900;font-family:'Arial Black',sans-serif;cursor:pointer">SOCCER</button>
+    <button id="sp-basketball" onclick="filterSport('basketball')" style="padding:5px 12px;background:transparent;color:#3B9EFF;border:1px solid #3B9EFF;border-radius:1px;font-size:9px;font-weight:900;font-family:'Arial Black',sans-serif;cursor:pointer">BASKETBALL</button>
+    <button id="sp-hockey" onclick="filterSport('hockey')" style="padding:5px 12px;background:transparent;color:#9B59B6;border:1px solid #9B59B6;border-radius:1px;font-size:9px;font-weight:900;font-family:'Arial Black',sans-serif;cursor:pointer">ICE HOCKEY</button>
+  </div>
 
   <div id="sport-data-container"></div><div id="states-content"></div>
 </div>
@@ -1630,21 +1638,6 @@ function showStates(t){
 function renderStates(){
   var c=document.getElementById('states-content');
 
-  // Sport filter buttons
-  var oldSB=document.getElementById('sport-select');
-  if(oldSB) oldSB.remove();
-  if(curStates!=='holidays'){
-    var sportDiv=document.createElement('div');
-    sportDiv.id='sport-select';
-    sportDiv.style='display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;margin-top:8px';
-    var sportColors2={all:'#777',football:'#E8760A',soccer:'#3DBA6F',basketball:'#3B9EFF',hockey:'#9B59B6'};
-    sportDiv.innerHTML=['all','football','soccer','basketball','hockey'].map(function(s){
-      var ac=(window._activeSport||'all')===s;
-      return '<button onclick="filterSport(\''+s+'\')" id="sp-'+s+'" style="padding:5px 12px;background:'+(ac?sportColors2[s]:'transparent')+';color:'+(ac?'#080808':sportColors2[s])+';border:1px solid '+sportColors2[s]+';border-radius:1px;font-size:8px;font-weight:900;font-family:Arial Black,sans-serif;cursor:pointer">'+s.toUpperCase()+'</button>';
-    }).join('');
-    var scEl=document.getElementById('states-content');
-    if(scEl) scEl.insertAdjacentElement('beforebegin',sportDiv);
-  }
 
   if(curStates==='holidays'){
     c.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:10px">'+
@@ -1768,7 +1761,7 @@ hockey:[
 ]
 };
 
-function filterSport(s){
+function filterSport(s){window._activeSport=s;
   var sports=['all','football','soccer','basketball','hockey'];
   var colors={all:'#D4FF00',football:'#E8760A',soccer:'#3DBA6F',basketball:'#3B9EFF',hockey:'#9B59B6'};
   sports.forEach(function(x){
